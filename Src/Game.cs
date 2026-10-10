@@ -2,8 +2,8 @@ using System.Text;
 
 public class Game
 {
-    private const int Width = 20;
-    private const int Height = 40;
+    private const int Width = 12;
+    private const int Height = 24;
 
     private readonly byte[,] map = new byte[Height, Width];
     private readonly Random random = new();
@@ -236,7 +236,7 @@ public class Game
                     }
                 }
 
-                sb.Append(map[y, x] != 0 || active ? "[]" : ". ");
+                sb.Append(map[y, x] != 0 || active ? "[]" : "  ");
             }
 
             sb.AppendLine("|");
