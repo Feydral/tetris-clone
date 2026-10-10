@@ -2,8 +2,8 @@ using System.Text;
 
 public class Game
 {
-    private const int Width = 10;
-    private const int Height = 20;
+    private const int Width = 20;
+    private const int Height = 40;
 
     private readonly byte[,] map = new byte[Height, Width];
     private readonly Random random = new Random();
@@ -18,7 +18,7 @@ public class Game
     private int level = 1;
 
     private long lastFall;
-    private long FallInterval => Math.Max(80, 600 - (level - 1) * 50);
+    private long FallInterval => Math.Max(80, 800 - (level - 1) * 50);
 
     public void Run()
     {
@@ -34,8 +34,7 @@ public class Game
             {
                 ReadInput();
 
-                if (!isRunning)
-                    break;
+                if (!isRunning) break;
 
                 long now = Environment.TickCount64;
 
@@ -59,7 +58,7 @@ public class Game
 
             Print();
             Console.WriteLine();
-            Console.WriteLine("Game Over! Drücke eine Taste zum Beenden.");
+            Console.WriteLine("Game Over!");
             Console.ReadKey(true);
         }
         finally
@@ -98,10 +97,16 @@ public class Game
                     lastFall = Environment.TickCount64;
                     break;
 
-                case ConsoleKey.W:
-                    byte[,] rotated = Blocks.Rotate(block);
+                case ConsoleKey.LeftArrow:
+                    byte[,] rotatedCCW = Blocks.RotateCCW(block);
 
-                    if (CanMove(blockX, blockY, rotated)) block = rotated;
+                    if (CanMove(blockX, blockY, rotatedCCW)) block = rotatedCCW;
+                    break;
+
+                case ConsoleKey.RightArrow:
+                    byte[,] rotatedCW = Blocks.RotateCW(block);
+
+                    if (CanMove(blockX, blockY, rotatedCW)) block = rotatedCW;
                     break;
 
                 case ConsoleKey.Escape:
@@ -172,11 +177,16 @@ public class Game
             cleared++;
 
             for (int row = y; row > 0; row--)
-            for (int x = 0; x < Width; x++)
-                map[row, x] = map[row - 1, x];
+            {
+                for (int x = 0; x < Width; x++) {
+                    map[row, x] = map[row - 1, x];
+                }
+            }
+                
 
-            for (int x = 0; x < Width; x++)
-                map[0, x] = 0;
+            for (int x = 0; x < Width; x++) {
+                map[0, x] = 0; 
+            }
 
             y++; 
         }
@@ -209,17 +219,19 @@ public class Game
                 bool active = false;
 
                 for (int sy = 0; sy < block.GetLength(0); sy++)
-                for (int sx = 0; sx < block.GetLength(1); sx++)
                 {
-                    if (block[sy, sx] != 0 &&
-                        blockX + sx == x &&
-                        blockY + sy == y)
+                    for (int sx = 0; sx < block.GetLength(1); sx++)
                     {
-                        active = true;
+                        if (block[sy, sx] != 0 &&
+                            blockX + sx == x &&
+                            blockY + sy == y)
+                        {
+                            active = true;
+                        }
                     }
                 }
 
-                sb.Append(map[y, x] != 0 || active ? "[]" : "  ");
+                sb.Append(map[y, x] != 0 || active ? "[]" : ". ");
             }
 
             sb.AppendLine("|");
@@ -227,7 +239,7 @@ public class Game
 
         sb.AppendLine("+" + new string('-', Width * 2) + "+");
         sb.AppendLine($"Score: {score}   Lines: {lines}   Level: {level}");
-        sb.AppendLine("← → Bewegen | ↑ Rotieren | ↓ Fallen | Space Drop | Esc Ende");
+        sb.AppendLine("A/D Move | ←/→ Rotate | S Drop");
 
         Console.SetCursorPosition(0, 0);
         Console.Write(sb.ToString());
@@ -238,8 +250,7 @@ public class Program
 {
     public static void Main()
     {
-        Game game = new Game();
-        game.Run();
+        new Game().Run();
     }
 }
  
