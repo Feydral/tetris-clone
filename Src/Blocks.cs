@@ -1,52 +1,59 @@
 public static class Blocks
 {
-    static readonly byte[,] tetrominoStraight = new byte[,]
+    public static readonly byte[][,] Shapes =
     {
-        { 0, 0, 0, 0 },
-        { 1, 1, 1, 1 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-    };
+        // I
+        new byte[,]
+        {
+            { 1, 1, 1, 1 }
+        },
 
-    static readonly byte[,] tetrominoSquare = new byte[,]
-    {
-        { 1, 1 },
-        { 1, 1 },
-    };
+        // O
+        new byte[,]
+        {
+            { 1, 1 },
+            { 1, 1 }
+        },
 
-    static readonly byte[,] tetrominoT = new byte[,]
-    {
-        { 0, 0, 0 },
-        { 1, 1, 1 },
-        { 0, 1, 0 },
-    };
+        // T
+        new byte[,]
+        {
+            { 0, 1, 0 },
+            { 1, 1, 1 },
+            { 0, 0, 0 }
+        },
 
-    static readonly byte[,] tetrominoL = new byte[,]
-    {
-        { 0, 1, 0 },
-        { 0, 1, 0 },
-        { 0, 1, 1 },
-    };
+        // L
+        new byte[,]
+        {
+            { 0, 0, 1 },
+            { 1, 1, 1 },
+            { 0, 0, 0 }
+        },
 
-    static readonly byte[,] tetrominoSkew = new byte[,]
-    {
-        { 0, 0, 0 },
-        { 0, 1, 1 },
-        { 1, 1, 0 },
-    };
+        // J
+        new byte[,]
+        {
+            { 1, 0, 0 },
+            { 1, 1, 1 },
+            { 0, 0, 0 }
+        },
 
-    static readonly byte[,] tetrominoJ = new byte[,]
-    {
-        { 1, 0, 0 },
-        { 1, 1, 1 },
-        { 0, 0, 0 },
-    };
-    
-    static readonly byte[,] tetrominoZ = new byte[,]
-    {
-        { 1, 1, 0 },
-        { 0, 1, 1 },
-        { 0, 0, 0 },
+        // S
+        new byte[,]
+        {
+            { 0, 1, 1 },
+            { 1, 1, 0 },
+            { 0, 0, 0 }
+        },
+
+        // Z
+        new byte[,]
+        {
+            { 1, 1, 0 },
+            { 0, 1, 1 },
+            { 0, 0, 0 }
+        }
     };
 
     public static byte[,] Rotate(byte[,] block)
