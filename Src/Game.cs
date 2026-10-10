@@ -6,7 +6,7 @@ public class Game
     private const int Height = 40;
 
     private readonly byte[,] map = new byte[Height, Width];
-    private readonly Random random = new Random();
+    private readonly Random random = new();
 
     private byte[,] block = null!;
     private int blockX;
@@ -119,15 +119,17 @@ public class Game
     private bool CanMove(int x, int y, byte[,] shape)
     {
         for (int sy = 0; sy < shape.GetLength(0); sy++)
-        for (int sx = 0; sx < shape.GetLength(1); sx++)
         {
-            if (shape[sy, sx] == 0) continue;
+            for (int sx = 0; sx < shape.GetLength(1); sx++)
+            {
+                if (shape[sy, sx] == 0) continue;
 
-            int px = x + sx;
-            int py = y + sy;
+                int px = x + sx;
+                int py = y + sy;
 
-            if (px < 0 || px >= Width || py < 0 || py >= Height) return false;
-            if (map[py, px] != 0) return false;
+                if (px < 0 || px >= Width || py < 0 || py >= Height) return false;
+                if (map[py, px] != 0) return false;
+            }
         }
 
         return true;
@@ -145,9 +147,11 @@ public class Game
     private void LockBlock()
     {
         for (int y = 0; y < block.GetLength(0); y++)
-        for (int x = 0; x < block.GetLength(1); x++)
         {
-            if (block[y, x] != 0) map[blockY + y, blockX + x] = 1;
+            for (int x = 0; x < block.GetLength(1); x++)
+            {
+                if (block[y, x] != 0) map[blockY + y, blockX + x] = 1;
+            }
         }
 
         ClearLines();
@@ -184,7 +188,8 @@ public class Game
             }
                 
 
-            for (int x = 0; x < Width; x++) {
+            for (int x = 0; x < Width; x++)
+            {
                 map[0, x] = 0; 
             }
 
@@ -206,7 +211,7 @@ public class Game
 
     private void Print()
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new();
 
         sb.AppendLine("+" + new string('-', Width * 2) + "+");
 
